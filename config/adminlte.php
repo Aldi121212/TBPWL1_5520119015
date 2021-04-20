@@ -224,34 +224,6 @@ return [
     */
 
     'menu' => [
-        'MAIN NAVIGATION',
-        [
-            'text' => 'Blog',
-            'url' => 'admin/blog',
-            'can' => 'isUser',
-        ],
-        [
-            'text' => 'Blog',
-            'url' => 'admin/blog',
-            'icon' => 'fas fa-fw fa-file',
-            'can' => ['isUser', 'isAdmin'],
-        ],
-        [
-            'header' => 'ACCOUNT SETTINGS',
-        ],
-        [
-            'text' => 'Profile',
-            'route' => 'admin.profile',
-            'icon' => 'fas fa-fw fa-user',
-            'can' => 'isAdmin',
-        ],
-        [
-            'text' => 'Change Password',
-            'route' => 'admin.password',
-            'icon' => 'fas fa-fw fa-lock',
-            'can' => 'isAdmin',
-        ],
-
         [
             'text' => 'search',
             'search' => true,
@@ -261,6 +233,12 @@ return [
             'text' => 'blog',
             'url'  => 'admin/blog',
             'can'  => 'manage-blog',
+        ],
+        [
+            'text' => 'Buku',
+            'url'  => 'admin/books',
+            'icon' => 'fas fa-fw fa-book',
+            'can'  => 'isAdmin',
         ],
         [
             'text'        => 'pages',

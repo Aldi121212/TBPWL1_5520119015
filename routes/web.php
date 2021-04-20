@@ -1,55 +1,40 @@
 <?php
 
-use App\Http\Controllers\BookController;
+use App\Http\Controllers\AdminController as Admin;
+use App\Http\Controllers\HomeController as Home;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\KelolaController;
-use App\Http\Controllers\ProfileController;
-
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test',function (){
-    return 'Hello World';
-});
+Auth::routes();
 
-Route::get('/halaman',function (){
-    return view('admin');
-});
+Route::get('/home', [Home::class, 'index'])
+    ->name('home')
+    ->middleware('auth');
 
-Route::view('/greeting', 'greeting', ['name' => 'Ucok']);
+Route::get('/admin/home', [Admin::class, 'index'])
+    ->name('admin.home')
+    ->middleware('is_admin');
 
-Route::get('users/{id}', function ($id) {
-    return 'User ' . $id;
-});
+Route::get('/admin/books', [Admin::class, 'books'])
+    ->name('admin.books')
+    ->middleware('is_admin');
 
-Route::get('members/{name?}', function ($name = 'Samsul') {
-    return 'Hello ' . $name;
-})->name('mbr');
+Route::post('/admin/books', [Admin::class, 'submit_book'])
+    ->name('admin.book.submit')
+    ->middleware('is_admin');
 
-Route::get('posts/{title}', function ($title) {
-    return 'Ini Post ' . $title;
-})->where('title', '[A-Za-z]+');
+Route::patch('admin/books/update', [App\Http\Controllers\AdminController::class, 'update_book'])
+    ->name('admin.book.update')
+    ->middleware('is_admin');
 
-Route::redirect('/halaman', '/greeting');
-Route::get('/user/{name}', 'UserController@show');
-//Route::get('/kelola', [KelolaController::class, 'index']);
-Route::resource('kelola_barang', KelolaBarang::class);
+Route::get('/admin/api/dataBuku/{id}', [Admin::class, 'getDataBuku'])
+    ->name('api.book')
+    ->middleware('is_admin');
 
-
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
-Route::get('/book/create', [BookController::class, 'create'])->name('book');
-
+Route::delete('admin/books/delete', [App\Http\Controllers\AdminController::class, 'delete_book'])
+    ->name('admin.book.delete')
+    ->middleware('is_admin');
